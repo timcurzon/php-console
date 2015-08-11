@@ -137,6 +137,8 @@ if (isset($_POST['code'])) {
                 tabsize: <?php echo json_encode($options['tabsize']) ?>
             });
         </script>
+        <link rel="stylesheet" type="text/css" href="snippet.css" />
+        <script src="snippet.js"></script>
     </head>
     <body>
         <div class="console-wrapper">
@@ -173,6 +175,68 @@ if (isset($_POST['code'])) {
                         </div>
                     <input type="submit" name="subm" value="Try this!" />
                 </form>
+            </div>
+            <div class="snippet-wrapper">
+                <div id="snippet_1" class="snippet">
+                    <button class="save">>></button>
+                    <button class="load"><</button>
+                    <button class="status">01</button>
+                    <button class="exec">></button>
+                </div>
+                <div id="snippet_2" class="snippet">
+                    <button class="save">>></button>
+                    <button class="load"><</button>
+                    <button class="status">02</button>
+                    <button class="exec">></button>
+                </div>
+                <div id="snippet_3" class="snippet">
+                    <button class="save">>></button>
+                    <button class="load"><</button>
+                    <button class="status">03</button>
+                    <button class="exec">></button>
+                </div>
+                <div id="snippet_4" class="snippet">
+                    <button class="save">>></button>
+                    <button class="load"><</button>
+                    <button class="status">04</button>
+                    <button class="exec">></button>
+                </div>
+                <div id="snippet_5" class="snippet">
+                    <button class="save">>></button>
+                    <button class="load"><</button>
+                    <button class="status">05</button>
+                    <button class="exec">></button>
+                </div>
+                <div id="snippet_6" class="snippet">
+                    <button class="save">>></button>
+                    <button class="load"><</button>
+                    <button class="status">06</button>
+                    <button class="exec">></button>
+                </div>
+                <div id="snippet_7" class="snippet">
+                    <button class="save">>></button>
+                    <button class="load"><</button>
+                    <button class="status">07</button>
+                    <button class="exec">></button>
+                </div>
+                <div id="snippet_8" class="snippet">
+                    <button class="save">>></button>
+                    <button class="load"><</button>
+                    <button class="status">08</button>
+                    <button class="exec">></button>
+                </div>
+                <div id="snippet_9" class="snippet">
+                    <button class="save">>></button>
+                    <button class="load"><</button>
+                    <button class="status">09</button>
+                    <button class="exec">></button>
+                </div>
+                <div id="snippet_10" class="snippet">
+                    <button class="save">>></button>
+                    <button class="load"><</button>
+                    <button class="status">10</button>
+                    <button class="exec">></button>
+                </div>
             </div>
             <div class="output-wrapper">
                 <div class="output"><?php echo $debugOutput ?></div>

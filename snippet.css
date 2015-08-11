@@ -1,0 +1,54 @@
+.snippet-wrapper {
+    flex: 0 1 auto;
+    position: relative;
+}
+
+.snippet-wrapper .snippet {
+    display: flex;
+    height: 2em;
+    padding: 0.5em;
+    /*justify-content: space-around;*/
+}
+
+.snippet-wrapper .snippet button {
+    flex: 0 1 auto;
+    width: 2em;
+    height: 2em;
+    margin: 0;
+    padding: 0;
+    font-weight: 800;
+    font-size: 1.1em;
+    border: 0;
+}
+.snippet-wrapper .snippet .save {
+    background-color: #fc5;
+    margin: 0 1em 0 0;
+}
+.snippet-wrapper .snippet .load {
+    background-color: lightgrey;
+    border-right: none;
+}
+.snippet-wrapper .snippet .status {
+    background-color: mediumgrey;
+    border-left: none;
+    border-right: none;
+}
+.snippet-wrapper .snippet.set .status {
+    background-color: #7b5;
+}
+.snippet-wrapper .snippet .exec {
+    background-color: #fa8;
+    border-left: none;
+}
+.snippet-wrapper .snippet button:active {
+    background-color: yellow;
+}
+
+/* overrides (via specificity) */
+.console-wrapper .output-wrapper, 
+.console-wrapper .input-wrapper {
+    flex: 1 1 40%;
+}
+.console-wrapper .input-wrapper {
+    border-right: none;
+}
