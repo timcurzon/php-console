@@ -1,15 +1,14 @@
+/* Snippet Wrapper */
 .snippet-wrapper {
     flex: 0 1 auto;
     position: relative;
 }
-
 .snippet-wrapper .snippet {
     display: flex;
     height: 2em;
     padding: 0.5em;
     /*justify-content: space-around;*/
 }
-
 .snippet-wrapper .snippet button {
     flex: 0 1 auto;
     width: 2em;
@@ -42,6 +41,63 @@
 }
 .snippet-wrapper .snippet button:active {
     background-color: yellow;
+}
+
+/* Snippet tag bar */
+.snippetbar {
+    min-height: 50px;
+    margin: 0;
+    padding: 5px 5px 0 48px;
+    background-color: #E8E8E8;
+}
+.snippetbar .add {
+    display: block;
+    position: absolute;
+    text-decoration: none;
+    top: 5px;
+    left: 5px;
+    border: 2px solid #aca;
+    border-radius: 2px;
+    font-size: 30px;
+    padding: 4px 8px;
+    color: green;
+    background-color: #cec;
+}
+.snippetbar .add:hover {
+    color: orange;
+    border-color: #dc7;
+    background-color: #fe9;
+}
+.snippetbar ul {
+    margin: 0;
+    padding: 0;
+}
+.snippetbar li {
+    display: block;
+    float: left;
+    border: 1px solid #8C8080;
+    border-radius: 2px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+.snippetbar li a {
+    display: block;
+    float: left;
+    padding: 2px;
+    color: #666;
+    text-decoration: none;
+}
+.snippetbar li .name:hover {
+    background-color: #fff;
+}
+.snippetbar li .del {
+    font-family: arial, helvetica, sans-serif;
+    color: red;
+    border-left: 1px solid #666;
+    background-color: #ccc;
+}
+.snippetbar li .del:hover {
+    background-color: #fe9;
 }
 
 /* overrides (via specificity) */

@@ -150,6 +150,20 @@ if (isset($_POST['code'])) {
         <div class="console-wrapper">
             <div class="input-wrapper">
                 <form method="POST" action="">
+                        <div class="snippetbar">
+                            <a href="#" class="add">+</a>
+                            <ul>
+                                <li><a class="name" href="#">snippet 1</a><a class="del" href="#">x</a></li>
+                                <li><a class="name" href="#">another snippet</a><a class="del" href="#">x</a></li>
+                                <li><a class="name" href="#">stuffs</a><a class="del" href="#">x</a></li>
+                                <li><a class="name" href="#">a long snippet name cos why not</a><a class="del" href="#">x</a></li>
+                                <li><a class="name" href="#">011</a><a class="del" href="#">x</a></li>
+                                <li><a class="name" href="#">0111</a><a class="del" href="#">x</a></li>
+                                <li><a class="name" href="#">snippet ftw</a><a class="del" href="#">x</a></li>
+                                <li><a class="name" href="#">snippet 34</a><a class="del" href="#">x</a></li>
+                                <li><a class="name" href="#">0311</a><a class="del" href="#">x</a></li>
+                            </ul>
+                        </div>
                     <div class="input">
                         <textarea class="editor" id="editor" name="code"><?php echo (isset($_POST['code']) ? htmlentities($_POST['code'], ENT_QUOTES, 'UTF-8') : "&lt;?php\n\n") ?></textarea>
                     </div>
