@@ -158,7 +158,7 @@ if (isset($_POST['code'])) {
                                 <li><a class="name" href="#">stuffs</a><a class="del" href="#">x</a></li>
                                 <li><a class="name" href="#">a long snippet name cos why not</a><a class="del" href="#">x</a></li>
                                 <li><a class="name" href="#">011</a><a class="del" href="#">x</a></li>
-                                <li><a class="name" href="#">0111</a><a class="del" href="#">x</a></li>
+                                <li><a class="name" href="#">0111 n stuff that might wrap</a><a class="del" href="#">x</a></li>
                                 <li><a class="name" href="#">snippet ftw</a><a class="del" href="#">x</a></li>
                                 <li><a class="name" href="#">snippet 34</a><a class="del" href="#">x</a></li>
                                 <li><a class="name" href="#">0311</a><a class="del" href="#">x</a></li>

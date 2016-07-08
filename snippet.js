@@ -13,9 +13,7 @@
 
     "use strict";
 
-    var initialize, log, getItem, setItem, clearItem, clearItems, 
-        snippetButtonSetup, snippetClickHandler, 
-        snippetDblClickHandler; // 'protected' instance methods
+    var initialize, log, ls, snippetButtonSetup, snippetClickHandler, snippetDblClickHandler; // 'protected' instance methods
     var editor, options, logLevel, snippetWrapper, keys = []; // instance vars
     logLevel = {
         EMERG:  0,
@@ -43,7 +41,7 @@
 
         // setup UI
         snippetButtonSetup();
-    }
+    };
 
     /**
      * log helper
@@ -53,46 +51,48 @@
         if (options.log && logLevel[level] <= options.logLevel) {
             console.log('[' + level + ']', msg, data);
         }
-    }
-
-    /**
-     * stores editor content in localStorage
-     */
-    setItem = function (key, content) {
-        localStorage.setItem(key, content);
-        var stored = localStorage.getItem(key);
-        log('INFO', 'Content stored in key ' + key);
-        log('DEBUG', 'Content was: ' + stored);
-        return stored;
     };
 
     /**
-     * get stored editor content from localStorage
+     * simple localStorage wrapper
      */
-    getItem = function (key) {
-        var content = localStorage.getItem(key);
-        log('INFO', 'Getting stored content for key ' + key);
-        log('DEBUG', 'Content was: ' + content);
-        return content;
+    ls = {
+        /**
+         * stores editor content in localStorage
+         */
+       setItem: function (key, content) {
+            localStorage.setItem(key, content);
+            var stored = localStorage.getItem(key);
+            log('INFO', 'Content stored in key ' + key);
+            log('DEBUG', 'Content was: ' + stored);
+            return stored;
+        },
+        /**
+         * get stored editor content from localStorage
+         */
+        getItem: function (key) {
+            var content = localStorage.getItem(key);
+            log('INFO', 'Getting stored content for key ' + key);
+            log('DEBUG', 'Content was: ' + content);
+            return content;
+        },
+        /**
+         * clear a snippet
+         */
+        clearItem: function(key) {
+            localStorage.removeItem(key);
+            $('#' + key, snippetWrapper).removeClass('set');
+            log('INFO', 'Cleared stored content for key ' + key);
+        },    
+        /**
+         * setup UI save button functionality
+         */
+        clearItems: function() {
+            $.each(keys, function(idx, key) {
+                ls.clearItem(key);
+            });
+        },
     };
-
-    /**
-     * clear a snippet
-     */
-    clearItem = function(key) {
-        localStorage.removeItem(key);
-        $('#' + key, snippetWrapper).removeClass('set');
-        log('INFO', 'Cleared stored content for key ' + key);
-    }
-
-    /**
-     * clear all snippets
-     */
-    clearItems = function() {
-        $.each(keys, function(idx, key) {
-            clearItem(key);
-        });
-    }
 
     /**
      * setup UI save button functionality
@@ -102,14 +102,14 @@
         $(buttonWrapper).each(function(idx, wrapper) {
             var key = wrapper.id;
             keys.push(key);
-            if (getItem(key)) {
+            if (ls.getItem(key)) {
                 $(wrapper).addClass('set');
                 log('INFO', 'Set class "set" for save button wrapper ' + key);
             }
             $(wrapper).click({key: key, wrapper: wrapper}, snippetClickHandler);
             $(wrapper).dblclick({key: key, wrapper: wrapper}, snippetDblClickHandler);
         });
-    }
+    };
 
     /**
      * click handler for snippet button set
@@ -122,7 +122,7 @@
         if ($(src).hasClass('save')) {
             // handle save
             log('NOTICE', 'Handling save event', e);
-            var stored = setItem(key, editor.getSession().getValue());
+            var stored = ls.setItem(key, editor.getSession().getValue());
             if (stored) {
                 $(wrapper).addClass('set');
             }
@@ -130,17 +130,17 @@
         } else if ($(src).hasClass('load')) {
             // handle load
             log('NOTICE', 'Handling load event', e);
-            var content = getItem(key);
+            var content = ls.getItem(key);
             editor.getSession().setValue(content);
-            localStorage.setItem(options.editorKey, content);
+            ls.setItem(options.editorKey, content);
 
         } else if ($(src).hasClass('exec')) {
             // handle execute
             log('NOTICE', 'Handling exec event', e);
-            editor.getSession().setValue(getItem(key));
+            editor.getSession().setValue(ls.getItem(key));
             $('form').submit();
         }
-    }
+    };
 
     /**
      * double click handler for snippet button set
@@ -152,9 +152,9 @@
         if ($(src).hasClass('status')) {
             // handle status query
             log('NOTICE', 'Handling status double click event', e);
-            clearItem(key);
+            ls.clearItem(key);
         }
-    }
+    };
 
     /**
      * fire up module, but wait a mo for php-console to init
