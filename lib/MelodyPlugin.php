@@ -5,6 +5,7 @@ use SensioLabs\Melody\Configuration\RunConfiguration;
 use Symfony\Component\Process\Process;
 use SensioLabs\Melody\Resource\ResourceParser;
 use Symfony\Component\Process\ExecutableFinder;
+use SensioLabs\Melody\Configuration\UserConfiguration;
 
 /**
  * Class which integrates melody scripts into the php-console.
@@ -13,6 +14,8 @@ use Symfony\Component\Process\ExecutableFinder;
  * @see https://github.com/sensiolabs/melody
  */
 class MelodyPlugin {
+    private $timeout = 60;
+
     public function isMelodyScript($source) {
         return preg_match(ResourceParser::MELODY_PATTERN, $source);
     }
@@ -37,7 +40,8 @@ class MelodyPlugin {
         $_ENV['COMPOSER_HOME'] = $tmpDir;
 
         $melody = new Melody();
-        $configuration = new RunConfiguration(/*true, true*/);
+        $runConfiguration = new RunConfiguration(/*true, true*/);
+        $userConfiguration = new UserConfiguration();
         $executor = function (Process $process, $verbose)
         {
             $callback = function ($type, $text)
@@ -45,6 +49,7 @@ class MelodyPlugin {
                 // we only have one output channel to the browser, just echo "all the things"
                 echo $text;
             };
+            $process->setTimeout($this->timeout);
             $process->run($callback);
         };
 
@@ -60,6 +65,10 @@ class MelodyPlugin {
             @unlink($tmpFile);
         });
         file_put_contents($tmpFile, $__source_code);
-        $melody->run($tmpFile, array(), $configuration, $executor);
+        $melody->run($tmpFile, array(), $runConfiguration, $userConfiguration, $executor);
+    }
+
+    public function setTimeout($timeout) {
+        $this->timeout = $timeout;
     }
 }

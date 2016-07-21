@@ -12,6 +12,9 @@ $defaults = array(
     // the code entered by the user is evaluated. any variables and classes
     // defined here will be accessible by the eval'd code
     'bootstrap' => null,
+
+    // maximun execution time for melody scripts
+    'melody_timeout' => 60,
 );
 
 if (file_exists(__DIR__.'/config.php')) {
@@ -41,7 +44,7 @@ if (!in_array('*', $options['ip_whitelist'], true) &&
     die('ERR/401 Go Away');
 }
 
-define('PHP_CONSOLE_VERSION', '1.4.0');
+define('PHP_CONSOLE_VERSION', '1.5.0-dev');
 require 'krumo/class.krumo.php';
 require 'lib/MelodyPlugin.php';
 require 'vendor/autoload.php';
@@ -88,8 +91,11 @@ if (isset($_POST['code'])) {
     $start = microtime(true);
 
     $melodyPlugin = new MelodyPlugin();
+    $melodyPlugin->setTimeout($options['melody_timeout']);
     if ($melodyPlugin->isMelodyScript($code)) {
         if ($melodyPlugin->isScriptingSupported()) {
+            // make sure krumo class is available in the melody script
+            $code = str_replace('CONFIG;', "CONFIG;\nrequire 'krumo/class.krumo.php';", $code );
             $melodyPlugin->runScript($code, $options['bootstrap']);
         } else {
             throw new Exception('php-console misses required dependencies to run melody scripts.');
