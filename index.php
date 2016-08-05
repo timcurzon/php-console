@@ -151,17 +151,8 @@ if (isset($_POST['code'])) {
             <div class="input-wrapper">
                 <form method="POST" action="">
                         <div class="snippetbar">
-                            <a href="#" class="add">+</a>
+                            <a href="#" id="add_tag" class="add">+</a>
                             <ul>
-                                <li><a class="name" href="#">snippet 1</a><a class="del" href="#">x</a></li>
-                                <li><a class="name" href="#">another snippet</a><a class="del" href="#">x</a></li>
-                                <li><a class="name" href="#">stuffs</a><a class="del" href="#">x</a></li>
-                                <li><a class="name" href="#">a long snippet name cos why not</a><a class="del" href="#">x</a></li>
-                                <li><a class="name" href="#">011</a><a class="del" href="#">x</a></li>
-                                <li><a class="name" href="#">0111 n stuff that might wrap</a><a class="del" href="#">x</a></li>
-                                <li><a class="name" href="#">snippet ftw</a><a class="del" href="#">x</a></li>
-                                <li><a class="name" href="#">snippet 34</a><a class="del" href="#">x</a></li>
-                                <li><a class="name" href="#">0311</a><a class="del" href="#">x</a></li>
                             </ul>
                         </div>
                     <div class="input">
@@ -195,68 +186,6 @@ if (isset($_POST['code'])) {
                         </div>
                     <input type="submit" name="subm" value="Try this!" />
                 </form>
-            </div>
-            <div class="snippet-wrapper">
-                <div id="snippet_1" class="snippet">
-                    <button class="save">>></button>
-                    <button class="load"><</button>
-                    <button class="status">01</button>
-                    <button class="exec">></button>
-                </div>
-                <div id="snippet_2" class="snippet">
-                    <button class="save">>></button>
-                    <button class="load"><</button>
-                    <button class="status">02</button>
-                    <button class="exec">></button>
-                </div>
-                <div id="snippet_3" class="snippet">
-                    <button class="save">>></button>
-                    <button class="load"><</button>
-                    <button class="status">03</button>
-                    <button class="exec">></button>
-                </div>
-                <div id="snippet_4" class="snippet">
-                    <button class="save">>></button>
-                    <button class="load"><</button>
-                    <button class="status">04</button>
-                    <button class="exec">></button>
-                </div>
-                <div id="snippet_5" class="snippet">
-                    <button class="save">>></button>
-                    <button class="load"><</button>
-                    <button class="status">05</button>
-                    <button class="exec">></button>
-                </div>
-                <div id="snippet_6" class="snippet">
-                    <button class="save">>></button>
-                    <button class="load"><</button>
-                    <button class="status">06</button>
-                    <button class="exec">></button>
-                </div>
-                <div id="snippet_7" class="snippet">
-                    <button class="save">>></button>
-                    <button class="load"><</button>
-                    <button class="status">07</button>
-                    <button class="exec">></button>
-                </div>
-                <div id="snippet_8" class="snippet">
-                    <button class="save">>></button>
-                    <button class="load"><</button>
-                    <button class="status">08</button>
-                    <button class="exec">></button>
-                </div>
-                <div id="snippet_9" class="snippet">
-                    <button class="save">>></button>
-                    <button class="load"><</button>
-                    <button class="status">09</button>
-                    <button class="exec">></button>
-                </div>
-                <div id="snippet_10" class="snippet">
-                    <button class="save">>></button>
-                    <button class="load"><</button>
-                    <button class="status">10</button>
-                    <button class="exec">></button>
-                </div>
             </div>
             <div class="output-wrapper">
                 <div class="output"><?php echo $debugOutput ?></div>

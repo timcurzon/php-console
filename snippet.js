@@ -13,8 +13,14 @@
 
     "use strict";
 
-    var initialize, log, ls, snippetButtonSetup, snippetClickHandler, snippetDblClickHandler; // 'protected' instance methods
-    var editor, options, logLevel, snippetWrapper, keys = []; // instance vars
+     // private instance methods
+    var initialize, log;
+
+    // private instance vars
+    var editor, options, logLevel,
+        ls, 
+        tagger, tags = [], tagListKey = 'taglist';
+
     logLevel = {
         EMERG:  0,
         ALERT:  1,
@@ -37,10 +43,7 @@
      */
     initialize = function () {
         editor = ace.edit(options.editor);
-        snippetWrapper = $('.snippet-wrapper');
-
-        // setup UI
-        snippetButtonSetup();
+        tagger.setup();
     };
 
     /**
@@ -60,101 +63,112 @@
         /**
          * stores editor content in localStorage
          */
-       setItem: function (key, content) {
+       setItem: function (key, type, content) {
+            key = type + '_' + key;
             localStorage.setItem(key, content);
             var stored = localStorage.getItem(key);
-            log('INFO', 'Content stored in key ' + key);
+            log('INFO', 'Content stored in key "' + key + '", type "' + type + '"');
             log('DEBUG', 'Content was: ' + stored);
             return stored;
         },
         /**
          * get stored editor content from localStorage
          */
-        getItem: function (key) {
+        getItem: function (key, type) {
+            key = type + '_' + key;
             var content = localStorage.getItem(key);
-            log('INFO', 'Getting stored content for key ' + key);
+            log('INFO', 'Getting stored content for key "' + key + '", type "' + type + '"');
             log('DEBUG', 'Content was: ' + content);
             return content;
         },
         /**
          * clear a snippet
          */
-        clearItem: function(key) {
+        clearItem: function(key, type) {
+            key = type + '_' + key;
             localStorage.removeItem(key);
-            $('#' + key, snippetWrapper).removeClass('set');
-            log('INFO', 'Cleared stored content for key ' + key);
+            log('INFO', 'Cleared stored content for key "' + key + '", type "' + type + '"');
         },    
         /**
          * setup UI save button functionality
          */
-        clearItems: function() {
+        clearItems: function(type) {
             $.each(keys, function(idx, key) {
-                ls.clearItem(key);
+                ls.clearItem(key, type);
             });
         },
     };
 
     /**
-     * setup UI save button functionality
+     * setup tag bar
      */
-    snippetButtonSetup = function() {
-        var buttonWrapper = $(snippetWrapper).find('.snippet');
-        $(buttonWrapper).each(function(idx, wrapper) {
-            var key = wrapper.id;
-            keys.push(key);
-            if (ls.getItem(key)) {
-                $(wrapper).addClass('set');
-                log('INFO', 'Set class "set" for save button wrapper ' + key);
+     // TODO: 
+     // - Fix default loaded tag
+     // - Quicksave (overwrite existing)
+     // - Sorting
+     // - Rename snippet js/css files (tab something or another)
+     tagger = {
+        setup: function() {
+            var persistedTags = ls.getItem(tagListKey, 'config');
+            if (persistedTags != null && persistedTags != '') {
+                tags = persistedTags.split(',');
+                tags = tags.map(function(tag) { return tag.replace('tag_', ''); })
+                log('DEBUG', 'Attempting initialisation of tags "' + tags.toString() + '"');
+                tagger.addAllToUi(tags);
+                log('INFO', 'Tags initialised (tags:' + tags.toString() + ')');
             }
-            $(wrapper).click({key: key, wrapper: wrapper}, snippetClickHandler);
-            $(wrapper).dblclick({key: key, wrapper: wrapper}, snippetDblClickHandler);
-        });
-    };
-
-    /**
-     * click handler for snippet button set
-     */
-    snippetClickHandler = function(e) {
-        var src = e.target,
-            key = e.data.key,
-            wrapper = e.data.wrapper;
-
-        if ($(src).hasClass('save')) {
-            // handle save
-            log('NOTICE', 'Handling save event', e);
-            var stored = ls.setItem(key, editor.getSession().getValue());
-            if (stored) {
-                $(wrapper).addClass('set');
-            }
-
-        } else if ($(src).hasClass('load')) {
-            // handle load
-            log('NOTICE', 'Handling load event', e);
-            var content = ls.getItem(key);
+            $('#add_tag').click(function(e) {
+                tagger.saveHandler();
+            });
+            $('.snippetbar ul').click(function(e) {
+                var clickedTag = $(e.target).parent('li').find('a.name').text();
+                if (e.target.className === 'name') {
+                    tagger.loadHandler(clickedTag, e.target);
+                } else if (e.target.className === 'del') {
+                    tagger.deleteHandler(clickedTag, e.target);
+                }
+            }); 
+        },
+        addAllToUi: function(tagsToAddToUi) {
+            tagsToAddToUi.forEach(function(tag) {
+                tagger.addToUi(tag);
+            });
+        },
+        addToUi: function(tag) {
+            var tagTemplate = '<li><a class="name" href="#">__tagname__</a><a class="del" href="#">x</a></li>';
+            $('.snippetbar ul').append(tagTemplate.replace('__tagname__', tag));
+        },
+        loadHandler: function(tag, el) {
+            log('DEBUG', 'Attempting loading of tag "' + tag + '"');
+            var content = ls.getItem(tag, 'tag');
             editor.getSession().setValue(content);
-            ls.setItem(options.editorKey, content);
-
-        } else if ($(src).hasClass('exec')) {
-            // handle execute
-            log('NOTICE', 'Handling exec event', e);
-            editor.getSession().setValue(ls.getItem(key));
-            $('form').submit();
+            log('INFO', 'Tag "' + tag + '" loaded');
+        },
+        saveHandler: function() {
+            var tag = prompt('Enter a tag name');
+            if (tag) {
+                log('DEBUG', 'Attempting creating of tag "' + tag + '"');
+                if (tags.indexOf(tag) == -1) {
+                    tags.push(tag);
+                    ls.setItem(tagListKey, 'config', tags.toString());
+                    ls.setItem(tag, 'tag', editor.getSession().getValue());
+                    tagger.addToUi(tag);
+                    log('INFO', 'Tag "' + tag + '" created (tags:' + tags.toString() + ')');
+                }
+            }
+        },
+        deleteHandler: function(tag, el) {
+            var del = confirm('Really delete the tag "' + tag + '"?');
+            log('DEBUG', 'Attempting deletion of tag "' + tag + '"');
+            if (del && tags.indexOf(tag) != -1) {
+                tags.splice(tags.indexOf(tag), 1);
+                ls.clearItem(tag, 'tag');
+                ls.setItem(tagListKey, 'config', tags.toString());
+                $(el).parent('li').remove();
+                log('INFO', 'Tag "' + tag + '" deleted (tags:' + tags.toString() + ')');
+            }
         }
-    };
-
-    /**
-     * double click handler for snippet button set
-     */
-    snippetDblClickHandler = function(e) {
-        var src = e.target,
-            key = e.data.key,
-            wrapper = e.data.wrapper;
-        if ($(src).hasClass('status')) {
-            // handle status query
-            log('NOTICE', 'Handling status double click event', e);
-            ls.clearItem(key);
-        }
-    };
+     };
 
     /**
      * fire up module, but wait a mo for php-console to init
