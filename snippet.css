@@ -50,14 +50,22 @@ body .console-wrapper .input-wrapper {
 .snippetbar li .name:hover {
     background-color: #fff;
 }
-.snippetbar li .del {
+.snippetbar li .action {
+    padding-left: 5px;
+    padding-right: 5px;
     font-family: arial, helvetica, sans-serif;
-    color: red;
+    font-weight: 800;
     border-left: 1px solid #666;
     background-color: #ccc;
 }
-.snippetbar li .del:hover {
+.snippetbar li .action:hover {
     background-color: #fe9;
+}
+.snippetbar li .up {
+    color: #696;
+}
+.snippetbar li .del {
+    color: #e66;
 }
 
 /* overrides (via specificity) */

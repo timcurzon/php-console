@@ -103,10 +103,9 @@
      * setup tag bar
      */
      // TODO: 
-     // - Fix default loaded tag
-     // - Quicksave (overwrite existing)
      // - Sorting
      // - Rename snippet js/css files (tab something or another)
+     // - Rename tag (?)
      tagger = {
         setup: function() {
             var persistedTags = ls.getItem(tagListKey, 'config');
@@ -122,9 +121,11 @@
             });
             $('.snippetbar ul').click(function(e) {
                 var clickedTag = $(e.target).parent('li').find('a.name').text();
-                if (e.target.className === 'name') {
+                if ($(e.target).hasClass('name')) {
                     tagger.loadHandler(clickedTag, e.target);
-                } else if (e.target.className === 'del') {
+                } else if ($(e.target).hasClass('up')) {
+                    tagger.updateHandler(clickedTag, e.target);
+                } else if ($(e.target).hasClass('del')) {
                     tagger.deleteHandler(clickedTag, e.target);
                 }
             }); 
@@ -135,7 +136,9 @@
             });
         },
         addToUi: function(tag) {
-            var tagTemplate = '<li><a class="name" href="#">__tagname__</a><a class="del" href="#">x</a></li>';
+            var tagTemplate = '<li><a class="name" href="#">__tagname__</a>'
+                + '<a class="action up" title="Update" href="#">u</a>'
+                + '<a class="action del" title="Delete" href="#">x</a></li>';
             $('.snippetbar ul').append(tagTemplate.replace('__tagname__', tag));
         },
         loadHandler: function(tag, el) {
@@ -155,6 +158,12 @@
                     tagger.addToUi(tag);
                     log('INFO', 'Tag "' + tag + '" created (tags:' + tags.toString() + ')');
                 }
+            }
+        },
+        updateHandler: function(tag, el) {
+            if (tags.indexOf(tag) != -1) {
+                ls.setItem(tag, 'tag', editor.getSession().getValue());
+                log('INFO', 'Tag "' + tag + '" updated (tags:' + tags.toString() + ')');
             }
         },
         deleteHandler: function(tag, el) {
