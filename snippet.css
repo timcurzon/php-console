@@ -1,16 +1,35 @@
-/* Overrides */
+/* Overrides (via specificity) */
 body .console-wrapper .input-wrapper {
     border-right: 1px solid #eee;
 }
+body .console-wrapper .output-wrapper, 
+body .console-wrapper .input-wrapper {
+    flex: 1 1 40%;
+}
+body .console-wrapper .input-wrapper {
+    border-right: none;
+}
 
-/* Snippet tag bar */
-.snippetbar {
+/* Resets */
+ul {
+    margin: 0;
+    padding: 0;
+}
+li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Tag bar */
+#tagbar {
     min-height: 50px;
     margin: 0;
     padding: 5px 5px 0 48px;
     background-color: #E8E8E8;
 }
-.snippetbar .add {
+/* Tag bar: add tag button; */
+#tagbar #addtag {
     display: block;
     position: absolute;
     text-decoration: none;
@@ -23,56 +42,79 @@ body .console-wrapper .input-wrapper {
     color: green;
     background-color: #cec;
 }
-.snippetbar .add:hover {
+#tagbar #addtag:hover {
     color: orange;
     border-color: #dc7;
     background-color: #fe9;
 }
-.snippetbar ul {
-    margin: 0;
-    padding: 0;
-}
-.snippetbar li {
+/* Tag bar: tag */
+#taglist .tag {
     display: block;
+    position: relative;
     float: left;
     border: 1px solid #8C8080;
     border-radius: 2px;
-    margin-right: 5px;
-    margin-bottom: 5px;
+    margin: 0 5px 5px 0;
 }
-.snippetbar li a {
-    display: block;
-    float: left;
-    padding: 2px;
-    color: #666;
+/* Tag bar: tag data */
+#taglist .data {
+    min-width: 60px;
+    padding-right: 12px;
+}
+#taglist .data a {
+    padding: 0.2em;
     text-decoration: none;
+    line-height: 1.5em
 }
-.snippetbar li .name:hover {
+#taglist .data .name {
+    color: #666;
+}
+#taglist .data .name:hover {
     background-color: #fff;
 }
-.snippetbar li .action {
-    padding-left: 5px;
-    padding-right: 5px;
-    font-family: arial, helvetica, sans-serif;
-    font-weight: 800;
-    border-left: 1px solid #666;
-    background-color: #ccc;
+#taglist .tag .data .showmenu {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    color: #aaa;
+    font-size: 0.8em;
 }
-.snippetbar li .action:hover {
-    background-color: #fe9;
+/* Tag bar: tag menu */
+#taglist .menu {
+    position: absolute;
+    top: 1.5em;
+    right: -1px;
+    border: 1px solid #8C8080;
+    border-top: none;
+    border-radius: 2px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    background-color: #ddd;
+    z-index: 999;
 }
-.snippetbar li .up {
-    color: #696;
+#taglist .showmenu:focus + div {
+    display: block;
 }
-.snippetbar li .del {
-    color: #e66;
+#taglist .menu {
+    display: none;
 }
-
-/* overrides (via specificity) */
-.console-wrapper .output-wrapper, 
-.console-wrapper .input-wrapper {
-    flex: 1 1 40%;
+#taglist .menu {
+    display: none;
 }
-.console-wrapper .input-wrapper {
-    border-right: none;
+#taglist .menu li {
+    float: none;
+    border: none;
+    margin: 0;
+}
+#taglist .menu li a {
+    display: block;
+    min-width: 60px;
+    padding: 1px 0;
+    color: #666;
+    border-top: 1px solid #ccc;
+    text-align: center;
+    text-decoration: none;
+}
+#taglist .menu li a:hover {
+    background-color: #eea;
 }

@@ -150,9 +150,22 @@ if (isset($_POST['code'])) {
         <div class="console-wrapper">
             <div class="input-wrapper">
                 <form method="POST" action="">
-                        <div class="snippetbar">
-                            <a href="#" id="add_tag" class="add">+</a>
-                            <ul>
+                        <div id="tagbar">
+                            <a href="#" id="addtag" class="add">+</a>
+                            <ul id="taglist">
+                                <!--
+                                <li class="tag">
+                                    <div class="data">
+                                        <a class="name" href="#">Test one</a><a class="showmenu" href="#">▼</a>
+                                        <div class="menu">
+                                            <ul>
+                                                <li><a class="action up" title="Update" href="#">Update</a></li>
+                                                <li><a class="action del" title="Delete" href="#">Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                -->
                             </ul>
                         </div>
                     <div class="input">

@@ -103,9 +103,10 @@
      * setup tag bar
      */
      // TODO: 
-     // - Sorting
+     // - UI > drop down tag menu
+     // - UI > Sorting
      // - Rename snippet js/css files (tab something or another)
-     // - Rename tag (?)
+     // - Rename a tag (?)
      tagger = {
         setup: function() {
             var persistedTags = ls.getItem(tagListKey, 'config');
@@ -116,11 +117,12 @@
                 tagger.addAllToUi(tags);
                 log('INFO', 'Tags initialised (tags:' + tags.toString() + ')');
             }
-            $('#add_tag').click(function(e) {
+            $('#addtag').click(function(e) {
                 tagger.saveHandler();
             });
-            $('.snippetbar ul').click(function(e) {
-                var clickedTag = $(e.target).parent('li').find('a.name').text();
+            $('#tagbar #taglist').click(function(e) {
+                console.log(e);
+                var clickedTag = $(e.target).text();
                 if ($(e.target).hasClass('name')) {
                     tagger.loadHandler(clickedTag, e.target);
                 } else if ($(e.target).hasClass('up')) {
@@ -136,10 +138,19 @@
             });
         },
         addToUi: function(tag) {
-            var tagTemplate = '<li><a class="name" href="#">__tagname__</a>'
-                + '<a class="action up" title="Update" href="#">u</a>'
-                + '<a class="action del" title="Delete" href="#">x</a></li>';
-            $('.snippetbar ul').append(tagTemplate.replace('__tagname__', tag));
+            var tagTemplate = '<li class="tag">' +
+                '<div class="data">' +
+                '<a class="name" href="#">__tagname__</a>' +
+                '<a class="showmenu" href="#">▼</a>' +
+                '<div class="menu">' +
+                '<ul>' +
+                '<li><a class="action up" title="Update" href="#">Update</a></li>' +
+                '<li><a class="action del" title="Delete" href="#">Delete</a></li>' +
+                '</ul>' +
+                '</div>' +
+                '</div>' +
+                '</li>';
+            $('#tagbar #taglist').append(tagTemplate.replace('__tagname__', tag));
         },
         loadHandler: function(tag, el) {
             log('DEBUG', 'Attempting loading of tag "' + tag + '"');
