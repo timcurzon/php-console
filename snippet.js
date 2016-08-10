@@ -125,10 +125,13 @@
                 var tagName = $('.name', tagEl).text();
                 if ($(e.target).hasClass('name')) {
                     tagger.loadHandler(tagName, tagEl);
-                } else if ($(e.target).hasClass('up')) {
-                    tagger.updateHandler(tagName, tagEl);
-                } else if ($(e.target).hasClass('del')) {
-                    tagger.deleteHandler(tagName, tagEl);
+                } else {
+                    var menuEl = $(e.target).parent('a');
+                    if ($(menuEl).hasClass('up')) {
+                        tagger.updateHandler(tagName, tagEl);
+                    } else if ($(menuEl).hasClass('del')) {
+                        tagger.deleteHandler(tagName, tagEl);
+                    }
                 }
             }); 
         },
@@ -153,7 +156,7 @@
             $('#tagbar #taglist').append(tagTemplate.replace('__tagname__', tag));
         },
         loadHandler: function(tag, tagEl) {
-            log('DEBUG', 'Attempting loading of tag "' + tag + '" (element: ' + tagEl + ')');
+            log('DEBUG', 'Attempting loading of tag "' + tag + '" (element: ', tagEl, ')');
             var content = ls.getItem(tag, 'tag');
             editor.getSession().setValue(content);
             log('INFO', 'Tag "' + tag + '" loaded');
@@ -172,14 +175,14 @@
             }
         },
         updateHandler: function(tag, tagEl) {
-            log('DEBUG', 'Attempting update of tag "' + tag + '" (element: ' + tagEl + ')');
+            log('DEBUG', 'Attempting update of tag "' + tag + '" (element: ', tagEl, ')');
             if (tags.indexOf(tag) != -1) {
                 ls.setItem(tag, 'tag', editor.getSession().getValue());
                 log('INFO', 'Tag "' + tag + '" updated (tags:' + tags.toString() + ')');
             }
         },
         deleteHandler: function(tag, tagEl) {
-            log('DEBUG', 'Attempting deletion of tag "' + tag + '" (element: ' + tagEl + ')');
+            log('DEBUG', 'Attempting deletion of tag "' + tag + '" (element: ', tagEl, ')');
             var del = confirm('Really delete the tag "' + tag + '"?');
             if (del && tags.indexOf(tag) != -1) {
                 tags.splice(tags.indexOf(tag), 1);
