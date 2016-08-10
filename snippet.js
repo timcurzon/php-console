@@ -35,7 +35,7 @@
         editor: 'editor',
         editorKey: 'phpCode',
         log: true,
-        logLevel: 6
+        logLevel: 3
     };
 
     /**
@@ -103,7 +103,6 @@
      * setup tag bar
      */
      // TODO: 
-     // - UI > drop down tag menu
      // - UI > Sorting
      // - Rename snippet js/css files (tab something or another)
      // - Rename a tag (?)
@@ -121,14 +120,15 @@
                 tagger.saveHandler();
             });
             $('#tagbar #taglist').click(function(e) {
-                console.log(e);
-                var clickedTag = $(e.target).text();
+                log('DEBUG', 'Click logged: ', e);
+                var tagEl = $(e.target).parents('li').filter('.tag');
+                var tagName = $('.name', tagEl).text();
                 if ($(e.target).hasClass('name')) {
-                    tagger.loadHandler(clickedTag, e.target);
+                    tagger.loadHandler(tagName, tagEl);
                 } else if ($(e.target).hasClass('up')) {
-                    tagger.updateHandler(clickedTag, e.target);
+                    tagger.updateHandler(tagName, tagEl);
                 } else if ($(e.target).hasClass('del')) {
-                    tagger.deleteHandler(clickedTag, e.target);
+                    tagger.deleteHandler(tagName, tagEl);
                 }
             }); 
         },
@@ -144,24 +144,24 @@
                 '<a class="showmenu" href="#">▼</a>' +
                 '<div class="menu">' +
                 '<ul>' +
-                '<li><a class="action up" title="Update" href="#">Update</a></li>' +
-                '<li><a class="action del" title="Delete" href="#">Delete</a></li>' +
+                '<li><a class="action up" title="Update" href="#">Update<span>↻</span></a></li>' +
+                '<li><a class="action del" title="Delete" href="#">Delete<span>x</span></a></li>' +
                 '</ul>' +
                 '</div>' +
                 '</div>' +
                 '</li>';
             $('#tagbar #taglist').append(tagTemplate.replace('__tagname__', tag));
         },
-        loadHandler: function(tag, el) {
-            log('DEBUG', 'Attempting loading of tag "' + tag + '"');
+        loadHandler: function(tag, tagEl) {
+            log('DEBUG', 'Attempting loading of tag "' + tag + '" (element: ' + tagEl + ')');
             var content = ls.getItem(tag, 'tag');
             editor.getSession().setValue(content);
             log('INFO', 'Tag "' + tag + '" loaded');
         },
         saveHandler: function() {
             var tag = prompt('Enter a tag name');
+            log('DEBUG', 'Attempting creating of tag "' + tag + '"');
             if (tag) {
-                log('DEBUG', 'Attempting creating of tag "' + tag + '"');
                 if (tags.indexOf(tag) == -1) {
                     tags.push(tag);
                     ls.setItem(tagListKey, 'config', tags.toString());
@@ -171,20 +171,21 @@
                 }
             }
         },
-        updateHandler: function(tag, el) {
+        updateHandler: function(tag, tagEl) {
+            log('DEBUG', 'Attempting update of tag "' + tag + '" (element: ' + tagEl + ')');
             if (tags.indexOf(tag) != -1) {
                 ls.setItem(tag, 'tag', editor.getSession().getValue());
                 log('INFO', 'Tag "' + tag + '" updated (tags:' + tags.toString() + ')');
             }
         },
-        deleteHandler: function(tag, el) {
+        deleteHandler: function(tag, tagEl) {
+            log('DEBUG', 'Attempting deletion of tag "' + tag + '" (element: ' + tagEl + ')');
             var del = confirm('Really delete the tag "' + tag + '"?');
-            log('DEBUG', 'Attempting deletion of tag "' + tag + '"');
             if (del && tags.indexOf(tag) != -1) {
                 tags.splice(tags.indexOf(tag), 1);
                 ls.clearItem(tag, 'tag');
                 ls.setItem(tagListKey, 'config', tags.toString());
-                $(el).parent('li').remove();
+                $(tagEl).remove();
                 log('INFO', 'Tag "' + tag + '" deleted (tags:' + tags.toString() + ')');
             }
         }

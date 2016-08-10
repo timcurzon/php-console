@@ -6,9 +6,6 @@ body .console-wrapper .output-wrapper,
 body .console-wrapper .input-wrapper {
     flex: 1 1 40%;
 }
-body .console-wrapper .input-wrapper {
-    border-right: none;
-}
 
 /* Resets */
 ul {
@@ -72,15 +69,24 @@ li {
 #taglist .data .name:hover {
     background-color: #fff;
 }
-#taglist .tag .data .showmenu {
+#taglist .data .showmenu {
     position: absolute;
     top: 1px;
     right: 1px;
     color: #aaa;
     font-size: 0.8em;
+    transform: rotateZ(-90deg);
+    transform-origin: 47% 47%;
+    transition: transform 0.1s;
+}
+#taglist .data .showmenu:focus {
+    transform: rotateZ(0deg);
+}
+#taglist .data .showmenu:focus + div {
+    visibility: visible;
 }
 /* Tag bar: tag menu */
-#taglist .menu {
+#taglist .data .menu {
     position: absolute;
     top: 1.5em;
     right: -1px;
@@ -92,21 +98,16 @@ li {
     background-color: #ddd;
     z-index: 999;
 }
-#taglist .showmenu:focus + div {
-    display: block;
+#taglist .data .menu {
+    visibility: hidden;
+    transition: visibility 0.2s;
 }
-#taglist .menu {
-    display: none;
-}
-#taglist .menu {
-    display: none;
-}
-#taglist .menu li {
+#taglist .data .menu li {
     float: none;
     border: none;
     margin: 0;
 }
-#taglist .menu li a {
+#taglist .data .menu li a {
     display: block;
     min-width: 60px;
     padding: 1px 0;
@@ -115,6 +116,17 @@ li {
     text-align: center;
     text-decoration: none;
 }
-#taglist .menu li a:hover {
+#taglist .data .menu a span {
+    padding: 0 3px;
+    font-family: arial, helvetica, sans-serif;
+    font-weight: 800;
+}
+#taglist .data .menu .up span {
+    color: #090;
+}
+#taglist .data .menu .del span {
+    color: #f00;
+}
+#taglist .data .menu li a:hover {
     background-color: #eea;
 }
