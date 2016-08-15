@@ -126,7 +126,8 @@
                 if ($(e.target).hasClass('name')) {
                     tagger.loadHandler(tagName, tagEl);
                 } else {
-                    var menuEl = $(e.target).parent('a');
+                    var menuEl = $(e.target).parents('li');
+                    log('DEBUG', 'tagEl: ', tagEl, ' / tagName: ', tagName, ' / menuEl: ', menuEl);
                     if ($(menuEl).hasClass('up')) {
                         tagger.updateHandler(tagName, tagEl);
                     } else if ($(menuEl).hasClass('del')) {
@@ -147,8 +148,8 @@
                 '<a class="showmenu" href="#">▼</a>' +
                 '<div class="menu">' +
                 '<ul>' +
-                '<li><a class="action up" title="Update" href="#">Update<span>↻</span></a></li>' +
-                '<li><a class="action del" title="Delete" href="#">Delete<span>x</span></a></li>' +
+                '<li class="up"><a title="Update" href="#">Update<span>↻</span></a></li>' +
+                '<li class="del"><a title="Delete" href="#">Delete<span>x</span></a></li>' +
                 '</ul>' +
                 '</div>' +
                 '</div>' +
