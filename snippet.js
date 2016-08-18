@@ -104,6 +104,7 @@
      */
      // TODO: 
      // - UI > Sorting
+     // - UI > Quick update
      // - Rename snippet js/css files (tab something or another)
      // - Rename a tag (?)
      tagger = {
