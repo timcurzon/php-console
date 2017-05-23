@@ -151,7 +151,7 @@ if (isset($_POST['code'])) {
             <div class="input-wrapper">
                 <form method="POST" action="">
                         <div id="tagbar">
-                            <a href="#" id="addtag" class="add">+</a>
+                            <a href="#" id="tagadd" class="add" title="tag code">+</a>
                             <ul id="taglist">
                                 <!--
                                 <li class="tag">
@@ -167,6 +167,14 @@ if (isset($_POST['code'])) {
                                 </li>
                                 -->
                             </ul>
+                            <a href="#" id="tagconfig" class="config">⚙</a>
+                            <div id="tagconfigpane">
+                                <ul id="tagconfigpane-basic">
+                                    <li>Sort (A-Z)</li>
+                                    <li>Something else</li>
+                                </ul>
+                                <a href="#" id="tagconfigpane-close" title="close">⊗</a>
+                            </div>
                         </div>
                     <div class="input">
                         <textarea class="editor" id="editor" name="code"><?php echo (isset($_POST['code']) ? htmlentities($_POST['code'], ENT_QUOTES, 'UTF-8') : "&lt;?php\n\n") ?></textarea>

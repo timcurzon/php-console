@@ -25,8 +25,8 @@ li {
     padding: 5px 5px 0 48px;
     background-color: #E8E8E8;
 }
-/* Tag bar: add tag button; */
-#tagbar #addtag {
+/* Tag bar: tag add button */
+#tagbar #tagadd {
     display: block;
     position: absolute;
     text-decoration: none;
@@ -39,10 +39,54 @@ li {
     color: green;
     background-color: #cec;
 }
-#tagbar #addtag:hover {
+#tagbar #tagadd:hover {
     color: orange;
     border-color: #dc7;
     background-color: #fe9;
+}
+/* Tag bar: config button */
+#tagbar #tagconfig {
+    display: block;
+    position: absolute;
+    text-decoration: none;
+    top: 0px;
+    right: 0px;
+    font-size: 18px;
+    line-height: 14px;
+    padding: 4px 4px;
+    color: #bbb;
+    z-index: 1001;
+}
+#tagbar #tagconfig.active,
+#tagbar #tagconfig:hover {
+    color: orange;
+    background-color: #fe9;
+    border: 1px solid #dc7;
+    border-top: none;
+    border-right: none;
+    border-bottom-left-radius: 2px;
+}
+/* Tag bar: config pane */
+#tagconfigpane {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: -200px;
+    height: 50%;
+    width: 200px;
+    border: 1px solid #dc7;
+    border-top: none;
+    background-color: #fe9;
+    z-index: 1000;
+}
+#tagconfigpane #tagconfigpane-close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 0 2px 0 0;
+    font-size: 22px;
+    color: orange;
+    text-decoration: none;
 }
 /* Tag bar: tag */
 #taglist .tag {

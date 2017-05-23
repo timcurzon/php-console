@@ -102,11 +102,11 @@
     /**
      * setup tag bar
      */
-     // TODO: 
-     // - UI > Sorting
-     // - UI > Quick update
-     // - Rename snippet js/css files (tab something or another)
-     // - Rename a tag (?)
+    // TODO:
+    // - UI > Sorting
+    // - UI > Quick update
+    // - Rename snippet js/css files (tab something or another)
+    // - Rename a tag (?)
      tagger = {
         setup: function() {
             var persistedTags = ls.getItem(tagListKey, 'config');
@@ -117,8 +117,18 @@
                 tagger.addAllToUi(tags);
                 log('INFO', 'Tags initialised (tags:' + tags.toString() + ')');
             }
-            $('#addtag').click(function(e) {
+            $('#tagadd').click(function(e) {
                 tagger.saveHandler();
+            });
+            $('#tagconfig').click(function(e) {
+                $('#tagconfig').addClass('active');
+                $('#tagconfigpane').show();
+            });
+            $('#tagbar #tagconfigpane').click(function(e) {
+                if (e.target.id == 'tagconfigpane-close') {
+                    $('#tagconfig').removeClass('active');
+                    $('#tagconfigpane').hide();
+                }
             });
             $('#tagbar #taglist').click(function(e) {
                 log('DEBUG', 'Click logged: ', e);
@@ -146,7 +156,7 @@
             var tagTemplate = '<li class="tag">' +
                 '<div class="data">' +
                 '<a class="name" href="#">__tagname__</a>' +
-                '<a class="showmenu" href="#">▼</a>' +
+                '<a class="showmenu" href="#" title="options">▼</a>' +
                 '<div class="menu">' +
                 '<ul>' +
                 '<li class="up"><a title="Update" href="#">Update<span>↻</span></a></li>' +
