@@ -1,0 +1,19 @@
+version: '3.2'
+
+services:
+   apachephp:
+      image: webdevops/php-apache-dev:alpine-php7
+      environment:
+         - WEB_DOCUMENT_ROOT=$PWD
+         - VIRTUAL_HOST=phpconsole.tools.$USER.localdev # Config for jwilder Nginx proxy 
+      volumes:
+         - /Volumes/Sites:/Volumes/Sites:ro
+      networks:
+         - proxy
+         - default
+      restart: unless-stopped
+
+networks:
+   proxy:
+      external:
+         name: proxy
