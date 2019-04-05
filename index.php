@@ -41,7 +41,7 @@ if (!in_array('*', $options['ip_whitelist'], true) &&
     !in_array($_SERVER['REMOTE_ADDR'], $options['ip_whitelist'], true)
 ) {
     header('HTTP/1.1 401 Access unauthorized');
-    die('ERR/401 Go Away');
+    die('ERR/401 Go Away (' . $_SERVER['REMOTE_ADDR'] . ' not allowed)');
 }
 
 define('PHP_CONSOLE_VERSION', '1.5.0-dev');
