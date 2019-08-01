@@ -2,7 +2,7 @@ version: '3.2'
 
 services:
    apachephp:
-      image: webdevops/php-apache-dev:alpine-php7
+      image: webdevops/php-apache-dev:alpine
       env_file:
          - docker-compose.env # Proxy config etc
       volumes:
